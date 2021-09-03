@@ -220,7 +220,7 @@ models:
               to: ref('other_model_name')
 ```
 
-#### unique_where ([source](macros/schema_tests/unique_where.sql))
+#### unique_where ([source](macros/schema_tests/test_unique_where.sql))
 This test validates that there are no duplicate values present in a field for a subset of rows by specifying a `where` clause.
 
 **Usage:**
@@ -236,7 +236,7 @@ models:
               where: "_deleted = false"
 ```
 
-#### not_null_where ([source](macros/schema_tests/not_null_where.sql))
+#### not_null_where ([source](macros/schema_tests/test_not_null_where.sql))
 This test validates that there are no null values present in a column for a subset of rows by specifying a `where` clause.
 
 **Usage:**
@@ -1079,19 +1079,9 @@ with events as (
 * `stop_date`: literal date or timestamp (default=current_timestamp)
 
 **Caveats:**
-* This materialization is compatible with dbt 0.10.1.
-* This materialization has been written for Redshift.
+* This materialization is compatible with dbt 0.21.0.
+* This materialization has been written primarily for Snowflake.
 * This materialization can only be used for a model where records are not expected to change after they are created.
-* Any model post-hooks that use `{{ this }}` will fail using this materialization. For example:
-```yaml
-models:
-    project-name:
-        post-hook: "grant select on {{ this }} to db_reader"
-```
-A useful workaround is to change the above post-hook to:
-```yaml
-        post-hook: "grant select on {{ this.schema }}.{{ this.name }} to db_reader"
-```
 
 ----
 
